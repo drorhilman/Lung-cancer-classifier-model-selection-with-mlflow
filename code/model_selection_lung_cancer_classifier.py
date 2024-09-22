@@ -94,7 +94,8 @@ def run_experiment(classifier_name: str, classifier: Any, X: pd.DataFrame, y: pd
         # Evaluate on each split
         for X_train, X_test, y_train, y_test in train_test_splits:
             result = evaluate_model(pipeline, X_train, X_test, y_train, y_test)
-            metrics = {key: value in result.items()}
+            for key, value in result.items():
+                metrics[key].append(value)
         
         # MLFlow: Log mean and std of the metrics
         for key, values in metrics.items():
