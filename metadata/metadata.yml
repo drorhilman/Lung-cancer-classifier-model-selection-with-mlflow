@@ -1,2 +1,4 @@
 metadata_version: 1
 name: Lung-cancer-classifier-model-selection-with-mlflow
+authors:
+- name: Dror Hilman

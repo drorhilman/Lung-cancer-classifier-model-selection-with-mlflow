@@ -9,16 +9,20 @@
 		"mamba": {
 			"packages": [
 				{
-					"name": "mlflow"
+					"name": "mlflow",
+					"version": "2.16.2"
 				},
 				{
-					"name": "pandas"
+					"name": "pandas",
+					"version": "2.2.3"
 				},
 				{
-					"name": "scikit-learn"
+					"name": "scikit-learn",
+					"version": "1.5.2"
 				},
 				{
-					"name": "xgboost"
+					"name": "xgboost",
+					"version": "2.1.1"
 				}
 			]
 		}

@@ -59,6 +59,9 @@ CLASSIFIERS_CONFIG = {
     "XGBoost": xgb.XGBClassifier()
 }
 
+
+metrics_list = ['accuracy', 'precision', 'recall']
+
 def preprocess_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
     """Preprocess the dataset, split into features and target."""
     df['GENDER'] = skl.preprocessing.LabelEncoder().fit_transform(df['GENDER'])
@@ -86,15 +89,14 @@ def run_experiment(classifier_name: str, classifier: Any, X: pd.DataFrame, y: pd
     """Run MLflow experiment for a given classifier."""
     with mlflow.start_run(run_name=classifier_name.lower().replace(" ","_")):
         pipeline = skl.pipeline.Pipeline([('scaler', skl.preprocessing.StandardScaler()), ('classifier', classifier)])
-        metrics = {metric: [] for metric in ['accuracy', 'precision', 'recall']}
+        metrics = {metric: [] for metric in metrics_list}
         
         # Evaluate on each split
         for X_train, X_test, y_train, y_test in train_test_splits:
             result = evaluate_model(pipeline, X_train, X_test, y_train, y_test)
-            for key, value in result.items():
-                metrics[key].append(value)
+            metrics = {key: value in result.items()}
         
-        # Log mean and std of the metrics
+        # MLFlow: Log mean and std of the metrics
         for key, values in metrics.items():
             mlflow.log_metric(f'{key}_mean', pd.Series(values).mean())
             mlflow.log_metric(f'{key}_std', pd.Series(values).std())
@@ -102,17 +104,8 @@ def run_experiment(classifier_name: str, classifier: Any, X: pd.DataFrame, y: pd
         # Train on the full dataset
         pipeline.fit(X, y)
         
-        # Infer model signature
-        input_example = X.head(1)
-        signature = infer_signature(X, pipeline.predict(X))
-        
         # Log the model using the appropriate MLflow function
-        if classifier_name == "XGBoost":
-            # Save in JSON format explicitly
-            classifier.save_model("xgboost_model.json")
-            mlflow.xgboost.log_model(classifier, "model", signature=signature, input_example=input_example)
-        else:
-            mlflow.sklearn.log_model(pipeline, "model", signature=signature, input_example=input_example)
+        mlflow.sklearn.log_model(pipeline, "model")
 
 def main() -> None:
     df = pd.read_csv(DATASET_URL)
