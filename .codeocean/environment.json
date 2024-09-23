@@ -9,7 +9,8 @@
 		"conda": {
 			"packages": [
 				{
-					"name": "jupyterlab"
+					"name": "jupyterlab",
+					"version": "4.2.5"
 				}
 			]
 		},

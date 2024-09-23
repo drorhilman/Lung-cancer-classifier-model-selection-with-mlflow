@@ -1,4 +1,4 @@
-# hash:sha256:6567a215aa8492a0d962e73986b3fc53946d01bab9db98300c886fd8987fc063
+# hash:sha256:085400fbc8ae215be6c1bfac22ced009e9ebc9f4037414b3f168f8228703e027
 ARG REGISTRY_HOST
 FROM $REGISTRY_HOST/codeocean/mambaforge3:22.11.1-4-ubuntu22.04
 
@@ -9,7 +9,7 @@ ARG GIT_ACCESS_TOKEN
 COPY git-askpass /
 
 RUN conda install -y \
-        jupyterlab \
+        jupyterlab==4.2.5 \
     && conda clean -ya
 
 RUN mamba install -y \
