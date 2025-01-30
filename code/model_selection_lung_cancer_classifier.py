@@ -18,6 +18,7 @@ The process is structured into several key stages:
 
 This pipeline not only automates the process of testing different models but also leverages MLflow to provide a robust and organized framework 
 for experiment tracking, making it easier to compare results and manage models for future deployment.
+MLFlow will be used to record the xgboost model
 """
 
 import warnings
