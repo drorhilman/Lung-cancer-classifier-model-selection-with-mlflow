@@ -4,6 +4,6 @@ description: This Capsule trains a number of classifiers on a Lung Cancer Datase
   and tracks relevant training parameters in MLflow. Used for webinar on 25 Sept.
   2024 by Daniel Koster.
 tags:
-- lung cancer
+- cancer
 authors:
 - name: Dror Hilman
